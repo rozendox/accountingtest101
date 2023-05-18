@@ -29,8 +29,7 @@ class Cont(connect):
 
     def adicionar_dados_mar(self, entrada, gastos):
         try:
-            sql_query = f"INSERT INTO marco(entrada, gastos, saldo REAL GENERATED ALWAYS AS (entrada - gastos) ) " \
-                        f"Values ({entrada}, {gastos} ) "
+            sql_query = f"INSERT INTO marco(entrada, gastos) Values ({entrada}, {gastos})"
             self.cursor.execute(sql_query)
             self.conn.commit()
             return "DATA ENTERED SUCESSFULY"
