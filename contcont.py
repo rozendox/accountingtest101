@@ -1,25 +1,64 @@
 import sqlite3
 
 
-class Cont:
+class connect:
     def __init__(self):
         self.conn = sqlite3.connect("contabilidadeteste1.db")
         self.cursor = self.conn.cursor()
 
-    def adicionar_dados_seg(self, entrada, gastos):
+
+class Cont(connect):
+
+    def adicionar_dados_jan(self, entrada, gastos):
         try:
-            sql_query = f"INSERT INTO janeiro(entrada,gastos)Values ({entrada}, {gastos})"
+            sql_query = f"INSERT INTO janeiro(entrada, gastos) Values ({entrada}, {gastos})"
             self.cursor.execute(sql_query)
             self.conn.commit()
-            return "dados inseridos"
+            return "DATA ENTERED SUCESSFULY"
         except Exception as e:
-            return f"Operação não-sucedida. Erro {e}"
+            return f"OPERATION NOT SUCCESSFUL. ERROR {e}"
 
     def adicionar_dados_fev(self, entrada, gastos):
         try:
             sql_query = f"INSERT INTO fevereiro(entrada, gastos) Values ({entrada}, {gastos})"
             self.cursor.execute(sql_query)
             self.conn.commit()
-            return "Dados Inseridos"
+            return "DATA ENTERED SUCESSFULY"
         except Exception as e:
-            return f"operação não sucedida. Erro {e}"
+            return f"OPERATION NOT SUCCESSFUL. ERROR {e}"
+
+    def adicionar_dados_mar(self, entrada, gastos):
+        try:
+            sql_query = f"INSERT INTO marco(entrada, gastos, saldo REAL GENERATED ALWAYS AS (entrada - gastos) ) " \
+                        f"Values ({entrada}, {gastos} ) "
+            self.cursor.execute(sql_query)
+            self.conn.commit()
+            return "DATA ENTERED SUCESSFULY"
+        except Exception as e:
+            return f"OPERATION NOT SUCCESSFUL. ERROR {e}"
+
+
+class ContVer(connect):
+
+    @property
+    def return_jan(self):
+        try:
+            self.cursor.execute("SELECT * FROM janeiro")
+            rows = self.cursor.fetchall()
+            for row in rows:
+                print(row)
+            self.conn.close()
+            return "DATA ENTERED SUCESSFULY"
+        except Exception as e:
+            return "OPERATION NOT SUCCESSFUL. ERROR: {}".format(e)
+
+    def return_fev(self):
+        try:
+            self.cursor.execute("SELECT * FROM fevereiro")
+            rows = self.cursor.fetchall()
+            for row in rows:
+                print(row)
+            self.conn.close()
+            return "DATA ENTERED SUCESSFULY"
+        except Exception as e:
+            return "OPERATION NOT SUCCESSFUL. ERROR: {}".format(e)
