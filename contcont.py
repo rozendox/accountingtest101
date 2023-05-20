@@ -1,63 +1,61 @@
-import sqlite3
+import contabilidade
+
+sqlconnector = contabilidade.accountancy()
+sqlconnectlook = contabilidade.ViewAccont()
 
 
-class connect:
-    def __init__(self):
-        self.conn = sqlite3.connect("contabilidadeteste1.db")
-        self.cursor = self.conn.cursor()
+# =======================================================================================================================
+# fixme -> adicionar dados
+# =======================================================================================================================
 
 
-class Cont(connect):
+def deposit():
+    year = int(input("Enter the year value: "))
+    month = input("Enter the month value: ")
+    Cash_Inflow = float(input("Enter the amount to add to the entry value: "))
+    Cash_Outflow = float(input("Enter the amount to be added to the cost amount: "))
 
-    def adicionar_dados_jan(self, entrada, gastos):
-        try:
-            sql_query = f"INSERT INTO janeiro(entrada, gastos) Values ({entrada}, {gastos})"
-            self.cursor.execute(sql_query)
-            self.conn.commit()
-            return "DATA ENTERED SUCESSFULY"
-        except Exception as e:
-            return f"OPERATION NOT SUCCESSFUL. ERROR {e}"
+    result = sqlconnector.add_data(year, month, Cash_Inflow, Cash_Outflow)
+    print(result)
 
-    def adicionar_dados_fev(self, entrada, gastos):
-        try:
-            sql_query = f"INSERT INTO fevereiro(entrada, gastos) Values ({entrada}, {gastos})"
-            self.cursor.execute(sql_query)
-            self.conn.commit()
-            return "DATA ENTERED SUCESSFULY"
-        except Exception as e:
-            return f"OPERATION NOT SUCCESSFUL. ERROR {e}"
+# =======================================================================================================================
 
-    def adicionar_dados_mar(self, entrada, gastos):
-        try:
-            sql_query = f"INSERT INTO marco(entrada, gastos) Values ({entrada}, {gastos})"
-            self.cursor.execute(sql_query)
-            self.conn.commit()
-            return "DATA ENTERED SUCESSFULY"
-        except Exception as e:
-            return f"OPERATION NOT SUCCESSFUL. ERROR {e}"
+def mensage():
+    print("\t\t\t\t@==============================================@")
+    print("\t\t\t\t@===========-Welcome To the System!-===========@")
+    print("\t\t\t\t@==============================================@")
 
 
-class ContVer(connect):
+def main():
+    contador = 0
+    while contador < 5:
+        print(".", end=" " + "\n")
+        contador += 1
+    print("\t@==========-MENU-==========@")
+    print("\t@==== 1 - ADD values ======@")
+    print("\t@==== 2 - SEE Values ======@")
+    print("\t@==========================@")
 
-    @property
-    def return_jan(self):
-        try:
-            self.cursor.execute("SELECT * FROM janeiro")
-            rows = self.cursor.fetchall()
-            for row in rows:
-                print(row)
-            self.conn.close()
-            return "DATA ENTERED SUCESSFULY"
-        except Exception as e:
-            return "OPERATION NOT SUCCESSFUL. ERROR: {}".format(e)
+    choice = int(input("@@ Choose an Option - \n === @@"))
 
-    def return_fev(self):
-        try:
-            self.cursor.execute("SELECT * FROM fevereiro")
-            rows = self.cursor.fetchall()
-            for row in rows:
-                print(row)
-            self.conn.close()
-            return "DATA ENTERED SUCESSFULY"
-        except Exception as e:
-            return "OPERATION NOT SUCCESSFUL. ERROR: {}".format(e)
+    if choice == 1:
+        deposit()
+        choice_return = input("Do you want to return to main menu? -- Y or N --")
+        if choice_return.lower() == "y":
+            print("== Returning to Main Menu ==")
+            main()
+        if choice_return.lower() == "n":
+            exit()
+        else:
+            print("== Wrong Value ==")
+            exit()
+    elif choice == 2:
+        pass
+    else:
+        print("ERROR, INCORRECTLY ENTERED VALUE")
+
+
+if __name__ == '__main__':
+    mensage()
+    main()
+
