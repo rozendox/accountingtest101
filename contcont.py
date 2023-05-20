@@ -1,61 +1,53 @@
-import contabilidade
+import sqlite3
 
-sqlconnector = contabilidade.accountancy()
-sqlconnectlook = contabilidade.ViewAccont()
-
-
-# =======================================================================================================================
-# fixme -> adicionar dados
-# =======================================================================================================================
+"""conn = sqlite3.connect('accountingtest101.db')
+cursor = conn.cursor()
 
 
-def deposit():
-    year = int(input("Enter the year value: "))
-    month = input("Enter the month value: ")
-    Cash_Inflow = float(input("Enter the amount to add to the entry value: "))
-    Cash_Outflow = float(input("Enter the amount to be added to the cost amount: "))
-
-    result = sqlconnector.add_data(year, month, Cash_Inflow, Cash_Outflow)
-    print(result)
-
-# =======================================================================================================================
-
-def mensage():
-    print("\t\t\t\t@==============================================@")
-    print("\t\t\t\t@===========-Welcome To the System!-===========@")
-    print("\t\t\t\t@==============================================@")
+cursor.execute('''CREATE TABLE Acc_Year
+                  (year INTEGER, month text, Cash_Inflow REAL, Cash_Outflow REAL, Days_Balance REAL)''')
 
 
-def main():
-    contador = 0
-    while contador < 5:
-        print(".", end=" " + "\n")
-        contador += 1
-    print("\t@==========-MENU-==========@")
-    print("\t@==== 1 - ADD values ======@")
-    print("\t@==== 2 - SEE Values ======@")
-    print("\t@==========================@")
+cursor.execute('''CREATE TRIGGER calculate_days_balance 
+                  AFTER INSERT ON Acc_Year
+                  FOR EACH ROW
+                  BEGIN
+                      UPDATE Acc_Year
+                      SET Days_Balance = NEW.Cash_Inflow - NEW.Cash_Outflow
+                      WHERE rowid = NEW.rowid;
+                  END;''')
 
-    choice = int(input("@@ Choose an Option - \n === @@"))
-
-    if choice == 1:
-        deposit()
-        choice_return = input("Do you want to return to main menu? -- Y or N --")
-        if choice_return.lower() == "y":
-            print("== Returning to Main Menu ==")
-            main()
-        if choice_return.lower() == "n":
-            exit()
-        else:
-            print("== Wrong Value ==")
-            exit()
-    elif choice == 2:
-        pass
-    else:
-        print("ERROR, INCORRECTLY ENTERED VALUE")
+conn.close()"""
 
 
-if __name__ == '__main__':
-    mensage()
-    main()
+class connect:
+    def __init__(self):
+        self.conn = sqlite3.connect("accountingtest101.db")
+        self.cursor = self.conn.cursor()
 
+
+class accountancy(connect):
+    def add_data(self, year, month, Cash_Inflow, Cash_Outflow):
+        try:
+            query = "INSERT INTO Acc_Year (year, month, Cash_Inflow, Cash_Outflow) VALUES (?, ?, ?, ?)"
+            args = (year, month, Cash_Inflow, Cash_Outflow)
+            self.cursor.execute(query, args)
+            self.conn.commit()
+            return "DATA ENTERED SUCCESSFULLY"
+        except Exception as e:
+            return f"OPERATION NOT SUCCESSFUL. ERROR {e}"
+
+
+class ViewAccont(connect):
+    def view_by_month(self):
+        try:
+            arg = str(input("REPORT THE MONTH TO BE USED AS A PARAMETER"))
+            query = "SELECT FROM " + arg
+            self.cursor.execute(query)
+            rows = self.cursor.fetchall()
+            for row in rows:
+                print(row)
+            self.conn.close()
+            return "DATA VISUALIZED SUCCESSFULLY "
+        except Exception as e:
+            return f"OPERATION NOT SUCESSFUL. ERROR {e}"
