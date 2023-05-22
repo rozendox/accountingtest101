@@ -38,12 +38,11 @@ class accountancy(connect):
             return f"OPERATION NOT SUCCESSFUL. ERROR {e}"
 
 
-class ViewAccont(connect):
+class ViewAccontM(connect):
     def view_by_month(self):
         try:
-            arg = str(input("REPORT THE MONTH TO BE USED AS A PARAMETER"))
-            query = "SELECT FROM " + arg
-            self.cursor.execute(query)
+            month = str(input("Inform the Month "))
+            self.cursor.execute("SELECT * FROM Acc_Year WHERE month = ?", (month,))
             rows = self.cursor.fetchall()
             for row in rows:
                 print(row)
@@ -51,3 +50,17 @@ class ViewAccont(connect):
             return "DATA VISUALIZED SUCCESSFULLY "
         except Exception as e:
             return f"OPERATION NOT SUCESSFUL. ERROR {e}"
+
+
+class ViewAccounntY(connect):
+    def view_by_year(self):
+        try:
+            year = str(input("Inform the Year"))
+            self.cursor.execute("Select From Acc_Year where Year = ?", (year,))
+            rows = self.cursor.fetchall()
+            for row in rows:
+                print(row)
+            self.conn.close()
+            return "DATA FILTERED BY YEAR VISUALIZED SUCESSFULLY"
+        except Exception as e:
+            return f"OPERATION NOT SUCECSSFUL. ERROR {e}"
