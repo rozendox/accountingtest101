@@ -112,60 +112,65 @@ def main():
                         return "$ OPERATION SUCESSFUL ..."
                     except Exception as e:
                         return f"$ OPERATION NOT SUCESSFUL. \n ERROR - {e}"
-                case 2:
+                case 2 | 3:
                     try:
-                        viewDataM()
-                        print("\n$ Data Returned")
-                        print("$ Thank you to use the system!")
-                        decision_view = str(input("$ Do you wanna do another Transation? \n Y/n"))
-                        if decision_view.lower() == "y":
-                            print("$ OK \n . \n . \n . \n .")
-                            main()
-                        elif decision_view.lower() == "n":
-                            print("$ Exiting...")
-                            print("$ Thank you to use the system")
-                            exit()
-                        return "$ OPERATION SUCESSFULY! "
-                    except Exception as e:
-                        return f"$ OPERATION NOT SUCESSFUL. ERROR -> {e}"
-
-                case 3:
-                    try:
-                        viewDatay()
-                        print("$ Data Returned")
-                        print("$ thank you to use the system")
-                        dec_view = str(input("$ Do you wanna Look your data? \n Y/N?"))
-                        if dec_view.lower() == "y":
-                            print("$ OK")
-                            dec_month_or_year = str(input("\nlook by year or by month? \n Y - year M - month\n\n"))
-                            if dec_month_or_year.lower() == "y":
-                                viewDatay()
-                                print("\n@ Do you wanna do annother transition?")
-                                dec_inside = str(input("Y/N"))
-                                if dec_inside.lower() == "y":
-                                    main()
-                                if dec_inside.lower() == "n":
-                                    print("$ Thank you to use the system")
-                                    exit()
-                                else:
-                                    print("@ Wrong Entry.\n Exiting ...")
-                                    print("$ Thank you to use the system")
-                                    exit()
-                            if dec_month_or_year.lower() == "m":
-                                viewDataM()
-                            else:
-                                print("$ - Wrong Entry")
+                        dec_view_3 = str(input("Do you want to see by month or by year? M/Y"))
+                        if dec_view_3.lower() == "m":
+                            viewDataM()
+                            print("\n$ Data Returned")
+                            print("$ Thank you to use the system!")
+                            decision_view = str(input("$ Do you wanna do another Transation? \n Y/n"))
+                            if decision_view.lower() == "y":
+                                print("$ OK \n . \n . \n . \n .")
+                                main()
+                            elif decision_view.lower() == "n":
+                                print("$ Exiting...")
                                 print("$ Thank you to use the system")
-                        elif dec_view.lower() == "n":
-                            exit()
+                                exit()
+                        elif dec_view_3.lower() == "y":
+                            viewDatay()
+                            print("$ Data Returned")
+                            print("$ thank you to use the system")
+                            dec_view = str(input("$ Do you wanna Look your data? \n Y/N?"))
+                            if dec_view.lower() == "y":
+                                print("$ OK")
+                                dec_month_or_year = str(input("\nlook by year or by month? \n Y - year M - month\n\n"))
+                                if dec_month_or_year.lower() == "y":
+                                    viewDatay()
+                                    print("\n@ Do you wanna do annother transition?")
+                                    dec_inside = str(input("Y/N"))
+                                    if dec_inside.lower() == "y":
+                                        main()
+                                    if dec_inside.lower() == "n":
+                                        print("$ Thank you to use the system")
+                                        exit()
+                                    else:
+                                        print("@ Wrong Entry.\n Exiting ...")
+                                        print("$ Thank you to use the system")
+                                        exit()
+                                if dec_month_or_year.lower() == "m":
+                                    viewDataM()
+                                else:
+                                    print("$ - Wrong Entry")
+                                    print("$ Thank you to use the system")
+                            elif dec_view.lower() == "n":
+                                exit()
+                            else:
+                                print("... Wrong Data ")
+                                print("$ Thank you to use the system")
+                                exit()
                         else:
-                            print("... Wrong Data")
-                            print("$ Thank you to use the system")
-                            exit()
+                            print("ERROR - ")
+
                         return "$ OPERATION SUCESSFULY! "
                     except Exception as e:
                         return f"$ OPERATION NOT SUCESSFUL. ERROR -> {e}"
-
+                case 4 | 5:
+                    #  drop of data by year and month
+                    pass
+                case 6 | 7:
+                    #
+                    pass
                 case _:
                     print("$ Invalid case")
         except TypeError:
