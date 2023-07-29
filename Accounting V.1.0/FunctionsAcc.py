@@ -1,4 +1,5 @@
 import contabilidade
+
 # ======================================================================================================================
 """
 mudanças permanentes ->
@@ -8,8 +9,8 @@ mudanças permanentes ->
 
 futuras resoluções :
 
-    drop of data by year and month 25/07/2023
-        resolution : ???
+        drop of data by year and month 
+            resolution : 26/07/2023
 
     view data by month and value >= and <= and 
         resolution: ???
@@ -23,6 +24,8 @@ futuras resoluções :
 sqlconnector = contabilidade.accountancy()
 sqlconnectlookM = contabilidade.ViewAccontM()
 sqlconnectlookY = contabilidade.ViewAccounntY()
+sqlconnectDBM = contabilidade.DropItens()
+sqlconnectDINY = contabilidade.DropItemMY()
 
 
 # ======================================================================================================================
@@ -51,6 +54,22 @@ def viewDataM():
 
 def viewDatay():
     sqlconnectlookY.view_by_year()
+
+
+# ======================================================================================================================
+# fixme -> DROP DATA
+# ======================================================================================================================
+
+def Drop_By_Month():
+    sqlconnectDBM.drop_by_month()
+
+
+def drop_By_Year():
+    sqlconnectDBM.drop_by_year()
+
+
+def drop_by_year_and_month():
+    sqlconnectDINY.drop_by_year_and_month()
 
 
 # ======================================================================================================================
@@ -115,6 +134,7 @@ def main():
                 case 2 | 3:
                     try:
                         dec_view_3 = str(input("Do you want to see by month or by year? M/Y"))
+
                         if dec_view_3.lower() == "m":
                             viewDataM()
                             print("\n$ Data Returned")
@@ -169,8 +189,23 @@ def main():
                     #  drop of data by year and month
                     pass
                 case 6 | 7:
-                    #
-                    pass
+                    print("$ Do you drop your data by month or by year?")
+                    dec_case_6 = str(input("my = month and year, \n y = year \n m = month"))
+
+                    if dec_case_6.lower() == "my":
+                        drop_by_year_and_month()
+                        print("$ DROP SUCESSFULY")
+                        # entrada decisao menu
+                    if dec_case_6.lower() == "m":
+                        Drop_By_Month()
+                        print("DROP SUCESSFULLY!")
+                        # entrada decisao menu
+                        enter_case = input("")
+
+                    elif dec_case_6.lower() == "y":
+                        print("$ DROPING...")
+                        drop_By_Year()
+
                 case _:
                     print("$ Invalid case")
         except TypeError:
